@@ -1,8 +1,15 @@
 :root{
   --yellow: #ffc107;
+  --resetGreen : #28a745;
 }
 
 body{
   background-color: black;
   
+}
+
+.app{
+  display: flex;
+  justify-content: center;
+  align-items:center ;
 }

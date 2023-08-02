@@ -5,3 +5,16 @@
     width: 500px;
     flex-wrap: wrap;
 }
+
+.turn-highlight{
+    padding-right: 200px;
+    color: white;
+}
+
+.reset{
+    padding: 1rem;
+    color: white;
+    background-color: var(--resetGreen);
+    border: none;
+    border-radius: 10px;
+}
