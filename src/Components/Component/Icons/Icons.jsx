@@ -1,6 +1,6 @@
 import {FaTimes , FaPen , FaRegCircle} from 'react-icons/fa';
 
-// import React from 'react'
+import {memo} from 'react';
  function Icons({name}) {
  if(name=="Circle")
  return <FaRegCircle size={30} />
@@ -14,4 +14,4 @@ import {FaTimes , FaPen , FaRegCircle} from 'react-icons/fa';
 }
 
 
-export default Icons;
+export default memo(Icons);
