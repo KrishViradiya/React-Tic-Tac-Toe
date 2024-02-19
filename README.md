@@ -1,1 +1,2 @@
-Built a TIC-TAC-TOE at a beginner level using React.js
+Built a TIC-TAC-TOE  using React.js
+--link [https://vk-tictactoe.vercel.app/]
