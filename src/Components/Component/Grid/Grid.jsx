@@ -1,39 +1,50 @@
 // import React from 'react'
-import isWinner from "../../../helper/isWinner"
-import { useCallback,useState } from "react";
+import isWinner from "../../../helper/isWinner";
+import { useCallback, useState } from "react";
 import Card from "../Card/Card";
 import "./Grid.css";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 // import { useCallback } from "react";
-
 
 function Grid({ numberOfCards }) {
   const [turn, setTurn] = useState(true); // true => O -- false => X\
   const [board, setBoard] = useState(Array(numberOfCards).fill(""));
   const [winner, setWinner] = useState(null);
-   const play = useCallback(function playcallBack(index) {
-    // console.log(index);
+  const [isDraw, setIsDraw] = useState(false);
 
-    if (turn == true) {
-      board[index] = "O";
-    } else {
-    board[index] = "X";
-    }
+  const play = useCallback(
+    function playcallBack(index) {
+      // console.log(index);
 
-    const win = isWinner(board, turn ? "O" : "x");
-    if (win){
-       setWinner(win);
-    //    toast.success(`Congratulations Winner is ${win}`, {
-    //     position: toast.POSITION.TOP_RIGHT
-    // });
-    }
-    setBoard([...board]);
-    setTurn(!turn);
-    
-  },[turn]);
+      if (turn == true) {
+        board[index] = "O";
+      } else {
+        board[index] = "X";
+      }
+
+      const win = isWinner(board, turn ? "O" : "X");
+      if (win) {
+        setWinner(win);
+        toast.success(`Winner is ${win} `);
+      }
+
+      const isBoardFull = board.every((cell) => cell !== "");
+
+      if (isBoardFull && !win) {
+        setIsDraw(true);
+        toast.info("It's a draw!");
+        
+      }
+     
+      setBoard([...board]);
+      setTurn(!turn);
+    },
+    [turn]
+  );
 
   function reset() {
     setTurn(true);
+    setIsDraw(false);
     setBoard(Array(numberOfCards).fill(""));
     setWinner(null);
   }
@@ -43,15 +54,35 @@ function Grid({ numberOfCards }) {
       {winner && (
         <>
           <h1 className="turn-highlight"> Winner is {winner} </h1>
-          <button className="reset" onClick={reset}> Reset Game </button>
-          <ToastContainer  />
+          <button className="reset" onClick={reset}>
+            {" "}
+            Reset Game{" "}
+          </button>
         </>
       )}
+      {
+        isDraw && (
+          <>
+          <button className="reset" onClick={reset}>
+            {" "}
+            Play Again{" "}
+          </button>
+          </>
+        )
+      }
 
-      <h1 className="turn-highlight" >  Current Turn : {(turn) ? "O" : "X"}</h1>
+      <h1 className="turn-highlight"> Current Turn : {turn ? "O" : "X"}</h1>
       <div className="grid">
         {board.map((value, idx) => {
-          return <Card onPlay={play} endGame={(winner) ? true : false}  player={value} key={idx} index={idx} />;
+          return (
+            <Card
+              onPlay={play}
+              endGame={winner ? true : false}
+              player={value}
+              key={idx}
+              index={idx}
+            />
+          );
         })}
       </div>
     </>
